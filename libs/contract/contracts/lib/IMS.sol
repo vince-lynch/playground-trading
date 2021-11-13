@@ -20,6 +20,19 @@ contract IMS is Context, Ownable, WhitelistManagers {
     }
     Item[] public items;
 
+    string[] public productNames;
+    uint256[] public productIds;
+    uint public productCount = 0;
+
+    function products() public view returns(Item[] memory){
+      Item[] memory lItems = new Item[](productCount);
+      for (uint i = 0; i < productCount; i++) {
+          Item storage lItem = items[i];
+          lItems[i] = lItem;
+      }
+      return lItems;
+   }
+
     mapping(address => uint256) private _balances;
     mapping(address => mapping(address => uint256)) private _allowances;
     uint256 private _totalSupply;
@@ -34,9 +47,10 @@ contract IMS is Context, Ownable, WhitelistManagers {
     function newStockItem(uint256 _id, string memory _n, string memory _cat, uint256 _price, uint256 _avail) public {
       Item memory item = Item(_id, _n, _cat, _price, _avail);
       items.push(item);
+      productCount++;
     }
 
-    function getUsingStorage(uint256 _itemIdx) public view returns (
+    function lookupStockItem(uint256 _itemIdx) public view returns (
       uint256 id,
       string memory name,
       string memory category,
