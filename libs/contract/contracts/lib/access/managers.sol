@@ -1,10 +1,18 @@
 pragma solidity ^0.8.0;
-import "./../upgradeable/Ownable.sol";
+import "./../openzeppelin/Ownable.sol";
 
 contract WhitelistManagers is Ownable {
   // Warehouse managers
   mapping (address => bool) managers;
 
+  function isAdminOrManager() public view returns(bool) {
+    bool isAllowed = owner() == msg.sender || isManager(msg.sender);
+    require(
+      isAllowed,
+      "Not a manager or admin."
+    );
+    return true;
+  }
 
   function isManager(address _member) public view returns(bool) {
     return managers[_member];
