@@ -1,9 +1,10 @@
 {
   "version": 2,
   "projects": {
+    "chain": "apps/chain",
+    "contract": "libs\\contract",
     "deploy": "libs\\deploy",
     "ui": "apps/ui",
-    "ui-e2e": "apps/ui-e2e",
-    "chain": "apps/chain"
+    "ui-e2e": "apps/ui-e2e"
   }
 }
