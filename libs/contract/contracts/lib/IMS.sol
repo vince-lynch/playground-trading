@@ -1,15 +1,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./upgradeable/OwnableUpgradeable.sol";
-import "./upgradeable/ContextUpgradeable.sol";
+import "./upgradeable/Ownable.sol";
+import "./upgradeable/Context.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
-import "./upgradeable/Initializable.sol";
 
 import "./IIMS.sol";
 import "./access/managers.sol";
 
-contract IMS is Initializable, ContextUpgradeable, OwnableUpgradeable, WhitelistManagers {
+contract IMS is Context, Ownable, WhitelistManagers {
     using SafeMath for uint256;
 
     struct Item {
@@ -73,13 +72,5 @@ contract IMS is Initializable, ContextUpgradeable, OwnableUpgradeable, Whitelist
         _symbol = symbol;
         _decimals = decimals;
         _mintable = mintable;
-    }
-
-    function initializeToken(string memory name, string memory symbol, uint8 decimals, uint256 amount, bool mintable) public onlyOwner {
-      _initialize(name, symbol, decimals, amount, mintable);
-    }
-
-    function myInitializer() initializer public {
-      __Ownable_init();
     }
 }

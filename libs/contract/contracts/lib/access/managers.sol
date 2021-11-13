@@ -1,7 +1,7 @@
 pragma solidity ^0.8.0;
-import "./../upgradeable/OwnableUpgradeable.sol";
+import "./../upgradeable/Ownable.sol";
 
-contract WhitelistManagers is OwnableUpgradeable {
+contract WhitelistManagers is Ownable {
   // Warehouse managers
   mapping (address => bool) managers;
 
