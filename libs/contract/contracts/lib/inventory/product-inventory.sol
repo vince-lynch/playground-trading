@@ -25,11 +25,15 @@ contract ProductInventory is WhitelistManagers {
       return lItems;
    }
 
-
     function newProduct(uint256 _id, string memory _n, string memory _cat, uint256 _price, uint256 _avail) public {
       Product memory item = Product(_id, _n, _cat, _price, _avail);
       items.push(item);
       productCount++;
+    }
+
+    function deleteProduct(uint256 _id) public {
+      delete items[_id];
+      productCount--;
     }
 
     function lookupInventoryForProduct(uint256 _id) public view returns (
