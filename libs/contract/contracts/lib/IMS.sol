@@ -7,8 +7,9 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "./upgradeable/Initializable.sol";
 
 import "./IIMS.sol";
+import "./access/managers.sol";
 
-contract IMS is Initializable, ContextUpgradeable, IIMS, OwnableUpgradeable {
+contract IMS is Initializable, ContextUpgradeable, OwnableUpgradeable, WhitelistManagers {
     using SafeMath for uint256;
 
     struct Item {
