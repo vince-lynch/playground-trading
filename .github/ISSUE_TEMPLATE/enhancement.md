@@ -11,11 +11,11 @@ assignees: 'vince-lynch'
 
 
 ## Tasks:
-- [] Do something
-- [] Do another thing
+- [ ] Do something
+- [ ] Do another thing
 
 ## Acceptance criteria:
-- [] Can test that the things by doing this check
+- [ ] Can test that the things by doing this check
 
 ## Notes:
 
