@@ -11,15 +11,14 @@ import "./IIMS.sol";
 contract IMS is Initializable, ContextUpgradeable, IIMS, OwnableUpgradeable {
     using SafeMath for uint256;
 
-    struct _stock {
+    struct Item {
       uint256 id;
       string name;
       string category;
       uint256 price;
       uint256 avail;
-      uint256 amount;
     }
-    mapping(uint256=>_stock) public stock;
+    Item[] public items;
 
     mapping(address => uint256) private _balances;
     mapping(address => mapping(address => uint256)) private _allowances;
@@ -29,6 +28,34 @@ contract IMS is Initializable, ContextUpgradeable, IIMS, OwnableUpgradeable {
     uint8 private _decimals;
     bool private _mintable;
     uint256 private _amount;
+
+    event StockChanged(string message);
+
+    function newStockItem(uint256 _id, string memory _n, string memory _cat, uint256 _price, uint256 _avail) public {
+      Item memory item = Item(_id, _n, _cat, _price, _avail);
+      items.push(item);
+    }
+
+    function getUsingStorage(uint256 _itemIdx) public view returns (
+      uint256 id,
+      string memory name,
+      string memory category,
+      uint256 price,
+      uint256 avail
+      ){
+      Item storage item = items[_itemIdx];
+      return (item.id, item.name, item.category, item.price, item.avail);
+    }
+
+    // Updates a stock item in the stock struc
+    // function update_stock(uint256 id, string name, string category, uint256 price, uint256 avail) public {
+    //   stock[id].id = id;
+    //   stock[id].name = name;
+    //   stock[id].category = category;
+    //   stock[id].price = price;
+    //   stock[id].avail = avail;
+    //   emit StockChanged('Stock changed'); // @TODO Need to concat string with details to emit
+    // }
 
     /**
      * @dev sets initials supply and the owner
