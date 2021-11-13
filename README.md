@@ -16,6 +16,9 @@ With as many generic applications as possible.
 - Helm to manage kubernetes applications
 - Kafka https://kafka.apache.org/
 
+### CI/CD
+- Github actions
+
 ### Package management
 - NX https://nx.dev/ (a monorepo alternative to lerna)
 - github actions
