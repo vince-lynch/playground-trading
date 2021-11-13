@@ -33,9 +33,10 @@ contract IMS is Context, Ownable, WhitelistManagers {
       return lItems;
    }
 
-    mapping(address => uint256) private _balances;
-    mapping(address => mapping(address => uint256)) private _allowances;
-    uint256 private _totalSupply;
+    mapping(string => uint256) private productMap; // Note this must be private if you’re going to use `string` as the key. Otherwise, use bytes32
+
+    //mapping(address => mapping(address => uint256)) private _allowances;
+
     string private _name;
     string private _symbol;
     uint8 private _decimals;
@@ -50,26 +51,33 @@ contract IMS is Context, Ownable, WhitelistManagers {
       productCount++;
     }
 
-    function lookupStockItem(uint256 _itemIdx) public view returns (
+    function lookupStockItem(uint256 _id) public view returns (
       uint256 id,
       string memory name,
       string memory category,
       uint256 price,
       uint256 avail
-      ){
-      Item storage item = items[_itemIdx];
+    ){
+      Item storage item = items[_id];
       return (item.id, item.name, item.category, item.price, item.avail);
     }
 
-    // Updates a stock item in the stock struc
-    // function update_stock(uint256 id, string name, string category, uint256 price, uint256 avail) public {
-    //   stock[id].id = id;
-    //   stock[id].name = name;
-    //   stock[id].category = category;
-    //   stock[id].price = price;
-    //   stock[id].avail = avail;
-    //   emit StockChanged('Stock changed'); // @TODO Need to concat string with details to emit
-    // }
+    //Updates a stock item in the stock struc
+    function update_stock(uint256 _id, string memory _n, string memory _cat, uint256 _p, uint256 _avail) public returns (
+      uint256 id,
+      string memory name,
+      string memory category,
+      uint256 price,
+      uint256 avail
+    ){
+      items[_id].id = _id;
+      items[_id].name = _n;
+      items[_id].category = _cat;
+      items[_id].price = _p;
+      items[_id].avail = _avail;
+      Item storage i = items[_id];
+      return (i.id, i.name, i.category, i.price, i.avail);
+    }
 
     /**
      * @dev sets initials supply and the owner
