@@ -59,3 +59,19 @@ With as many generic applications as possible.
 - Trading
 
 blockchain loans?
+
+
+## Setup
+
+```sh
+npm install -g @nrwl/cli openfin-cli
+```
+
+
+## Getting started
+
+Serve the UI
+
+```sh
+npm run start
+```
