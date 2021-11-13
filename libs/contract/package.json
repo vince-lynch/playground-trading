@@ -3,7 +3,7 @@
   "scripts": {
     "blockchain": "npx hardhat node",
     "compile": "npx hardhat compile",
-    "deploy:proxy": "npx hardhat run scripts/upgrade-box.js --network dev",
+    "deploy:contract": "npx hardhat run scripts/deploy-contract.js --network dev",
     "remix": "remixd -s ./ --remix-ide https://remix.ethereum.org",
     "test": "npx hardhat test"
   },
