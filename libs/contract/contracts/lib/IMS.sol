@@ -1,11 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "./upgradeable/Ownable.sol";
-import "./upgradeable/Context.sol";
+import "./openzeppelin/Ownable.sol";
+import "./openzeppelin/Context.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
-import "./IIMS.sol";
 import "./access/managers.sol";
 import "./inventory/product-inventory.sol";
 

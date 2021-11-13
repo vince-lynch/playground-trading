@@ -25,13 +25,17 @@ contract ProductInventory is WhitelistManagers {
       return lItems;
    }
 
-    function newProduct(uint256 _id, string memory _n, string memory _cat, uint256 _price, uint256 _avail) public {
+    function newProduct(uint256 _id, string memory _n, string memory _cat, uint256 _price, uint256 _avail) public{
+      // Restricted to managers
+      require(isAdminOrManager());
       Product memory item = Product(_id, _n, _cat, _price, _avail);
       items.push(item);
       productCount++;
     }
 
     function deleteProduct(uint256 _id) public {
+      // Restricted to managers
+      require(isAdminOrManager());
       delete items[_id];
       productCount--;
     }
@@ -55,6 +59,8 @@ contract ProductInventory is WhitelistManagers {
       uint256 price,
       uint256 avail
     ){
+      // Restricted to managers
+      require(isAdminOrManager());
       items[_id].id = _id;
       items[_id].name = _n;
       items[_id].category = _cat;
