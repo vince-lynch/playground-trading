@@ -1,9 +1,9 @@
 // contracts/Box.sol
 // SPDX-License-Identifier: MIT
 pragma solidity >= 0.4.22 <0.9.0;
-import "./lib/BEP20.sol";
+import "./lib/IMS.sol";
 
-contract Box is BEP20 {
+contract Box is IMS {
     uint256 private value;
     bool private initialized;
 
