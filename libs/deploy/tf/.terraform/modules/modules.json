@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"condor","Source":"vultr/condor/vultr","Version":"2.0.0","Dir":".terraform/modules/condor"}]}

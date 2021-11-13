@@ -1,0 +1,7 @@
+{
+  "name": "deploy",
+  "scripts": {
+    "tf": "cd ./tf && terraform init && terraform apply -auto-approve -var-file=dev.tfvars",
+    "test": "node index.js"
+  }
+}
