@@ -69,4 +69,14 @@ contract ProductInventory is WhitelistManagers {
       Product storage i = items[_id];
       return (i.id, i.name, i.category, i.price, i.avail);
     }
+
+    function productIdExists(uint256 _id)  public view returns(bool) {
+      require(items[_id].id == _id, "Product ID does not exist");
+      return true;
+    }
+
+    function quantityReasonable(uint256 _id, uint256 _quantity) public view returns(bool) {
+      require(items[_id].avail >= _quantity, "You've ordered more than is in stock");
+      return true;
+    }
 }
