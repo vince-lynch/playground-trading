@@ -1,6 +1,7 @@
 {
   "version": 2,
   "projects": {
+    "deploy": "libs\\deploy",
     "ui": "apps/ui",
     "ui-e2e": "apps/ui-e2e"
   }

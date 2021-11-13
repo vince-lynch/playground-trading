@@ -70,6 +70,11 @@ blockchain loans?
 npm install -g @nrwl/cli openfin-cli
 ```
 
+You'll need terraform installed
+
+```sh
+choco install k0sctl
+```
 
 ## Getting started
 
@@ -77,4 +82,14 @@ Serve the UI
 
 ```sh
 npm run start
+```
+
+## Infrastructure
+
+See /libs/deploy
+
+and run the command
+
+```sh
+npm run tf
 ```
