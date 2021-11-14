@@ -11,7 +11,12 @@ WORKDIR /usr/src/app
 RUN npm install -g ethereum-waffle@^3.4.0
 
 COPY package.json package.json
-COPY .npmrc .npmrc
+RUN printf '\n\
+  always-auth=true\n\
+  @vince-lynch:registry=https://npm.pkg.github.com\n\
+  //npm.pkg.github.com/:_authToken=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\n\
+  '\
+  > .npmrc
 
 # Install ganache-cli globally
 RUN npm install -g ganache-cli

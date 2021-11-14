@@ -25,7 +25,7 @@ jobs:
         node-version: '14'
         registry-url: https://npm.pkg.github.com/
     - name: Login to Docker
-      run: echo "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" | docker login -u vince-lynch --password-stdin ghcr.io
+      run: echo "${{ secrets.NPM_TOKEN }}" | docker login -u vince-lynch --password-stdin ghcr.io
     - name: Run Tests
       run: npm run start
       working-directory: libs/test-solidity-contract
