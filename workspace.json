@@ -4,6 +4,7 @@
     "chain": "apps/chain",
     "contract": "libs\\contract",
     "deploy": "libs\\deploy",
+    "test-solidity-contract": "libs\\test-solidity-contract",
     "ui": "apps/ui",
     "ui-e2e": "apps/ui-e2e"
   }

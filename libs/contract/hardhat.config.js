@@ -1,6 +1,5 @@
 require("@nomiclabs/hardhat-waffle");
 require("@nomiclabs/hardhat-ethers");
-require('@openzeppelin/hardhat-upgrades');
 
 const { ALCHEMY_API_KEY, PRIVATE_KEY, MNEMONIC } = require('./secrets.json');
 
@@ -24,7 +23,7 @@ module.exports = {
   solidity: "0.8.0",
   networks: {
     dev: {
-      url: 'http://127.0.0.1:8545',
+      url: 'http://0.0.0.0:8545',
       gas: 5000000,
       gasPrice: 5e9,
       networkId: '*'
