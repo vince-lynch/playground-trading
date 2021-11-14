@@ -1,7 +1,8 @@
 pragma solidity ^0.8.0;
 import "./../inventory/product-inventory.sol";
+import "./credit.sol";
 
-abstract contract CustomerOrder is ProductInventory {
+abstract contract CustomerOrder is CustomerCredit, ProductInventory {
   struct Order {
     string productName;
     address customerAddress;
