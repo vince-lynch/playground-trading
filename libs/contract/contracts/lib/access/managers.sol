@@ -1,7 +1,7 @@
 pragma solidity ^0.8.0;
-import "./../openzeppelin/Ownable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract WhitelistManagers is Ownable {
+abstract contract WhitelistManagers is Ownable {
   // Warehouse managers
   mapping (address => bool) managers;
 

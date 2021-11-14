@@ -1,7 +1,7 @@
 pragma solidity ^0.8.0;
 import "./../access/managers.sol";
 
-contract ProductInventory is WhitelistManagers {
+abstract contract ProductInventory is WhitelistManagers {
 
     string[] public ProductTypes;
 
