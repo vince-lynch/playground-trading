@@ -48,10 +48,12 @@ abstract contract WarehouseOrders is WhitelistManagers, Customer {
     ) = getOrderById(orderId);
     require(
       amountOwed <= balance[customerAddress],
-      "Customer's balance isnt large enough, can't approve order "
+      "Customers balance isnt large enough cant approve order"
     );
     reduceCustomerCredit(customerAddress, amountOwed);
     updateOrderAsFilled(idx);
+
+    return true;
   }
 
 }

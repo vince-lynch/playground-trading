@@ -1,9 +1,12 @@
 var utils = require('ethers').utils;
-const chai = require("chai");
 const { solidity } = require("ethereum-waffle");
+const chai = require("chai");
 chai.use(solidity);
-
 const { expect } = chai;
+
+const createStock = require("./utils/create-stock.js");
+
+
 
 describe("Token contract", function () {
 
@@ -49,25 +52,7 @@ describe("Token contract", function () {
    * Then the amount of stock in the factory is updated
    */
   it("Feature: Warehouse manager can add stock to the inventory", async function () {
-    await contract.addManager(addr1.address);
-
-    const isManager = await contract.isManager(addr1.address);
-
-    expect(isManager).to.equal(true);
-
-    const warehouseManager = contract.connect(addr1);
-
-    const markPrice = 1;
-    const quantity = 50;
-
-    await warehouseManager.newProduct("large plywood", "factory1", markPrice, quantity);
-
-    const [idx, name, category, price, available] = await warehouseManager.lookupInventoryForProduct("large plywood");
-    expect(utils.formatEther(idx)).to.equal(utils.formatEther(0));
-    expect(name).to.equal("large plywood");
-    expect(category).to.equal("factory1");
-    expect(utils.formatEther(price)).to.equal(utils.formatEther(markPrice));
-    expect(utils.formatEther(available)).to.equal(utils.formatEther(quantity));
+    createStock(addr1, contract)
   });
 
    /**
@@ -90,6 +75,66 @@ describe("Token contract", function () {
       await expect(
         customer.newProduct("large plywood", "factory1", 1, 50)
       ).to.be.revertedWith("Not a manager or admin.");
+    });
+
+    /**
+     * Feature: Customer can place an order
+     *
+     * Given that the user is a customer
+     * Given that the warehouse has enough widgets to fulfil the customer order
+     * Given that the customer has enough funds to pay for the order
+     * Then the order is accepted
+    */
+     it("Feature: Customer can place an order", async function () {
+      const product = 'large plywood';
+      const [idx, productName, factory, price, available] = await createStock(addr1, contract);
+      expect(productName).to.equal(product);
+
+      const customerWallet = addr2;
+      const customer = await contract.connect(customerWallet);
+
+      const order1LessThanTotalSupply = available -1
+
+      /**
+       * Place order
+       */
+      await customer.newOrder(product, '150 canary wharf shipping corp, canada place, london', '24/02/2022', order1LessThanTotalSupply)
+
+      const [ id, oProductName, address, filled, s, d, a, quantity, amountOwed ] = await customer.getOrderById(idx.toNumber());
+      expect(oProductName).to.equal(product);
+      expect(address).to.equal(customerWallet.address);
+      expect(filled).to.equal(false);
+      expect(amountOwed.toNumber()).to.equal(order1LessThanTotalSupply)
+
+      const warehouseManager = await contract.connect(addr1);
+
+      /**
+       * Warehouse manager, try and fail to accept order
+       */
+      try {
+        await warehouseManager.acceptOrder(id.toNumber())
+      } catch (err) {
+        expect(err.message).to.equal('VM Exception while processing transaction: revert Customers balance isnt large enough cant approve order')
+      }
+
+      /**
+       * Send deposit for order
+       */
+      await customerWallet.sendTransaction({
+        to: contract.address,
+        value: ethers.utils.parseEther(amountOwed.toNumber().toString())
+      });
+
+      /**
+       * Warehouse manager, Tries again to accept the order
+       */
+      await warehouseManager.acceptOrder(id.toNumber());
+      /**
+       * Order is accepted
+       */
+      const [ _a, _b, _c, isFilled ] = await customer.getOrderById(idx.toNumber());
+      expect(isFilled).to.equal(true);
+
     });
 
 });
