@@ -3,57 +3,65 @@ import "./../access/managers.sol";
 
 contract ProductInventory is WhitelistManagers {
 
+    string[] public ProductTypes;
+
     struct Product {
-      uint256 id;
+      uint256 idx;
       string name;
       string category;
       uint256 price;
       uint256 avail;
     }
-    Product[] public items;
-
-    string[] public productNames;
-    uint256[] public productIds;
     uint public productCount = 0;
+
+    // Map the name of the product to the product
+    mapping(string=>Product) public Products;
+    // Map the id or the product to the product
+    mapping(uint256=>Product) public ProductIds;
 
     function listProducts() public view returns(Product[] memory){
       Product[] memory lItems = new Product[](productCount);
       for (uint i = 0; i < productCount; i++) {
-          Product storage lItem = items[i];
+          Product storage lItem = ProductIds[i];
           lItems[i] = lItem;
       }
       return lItems;
    }
 
-    function newProduct(uint256 _id, string memory _n, string memory _cat, uint256 _price, uint256 _avail) public{
+    function newProduct(string memory _n, string memory _cat, uint256 _price, uint256 _avail) public{
       // Restricted to managers
       require(isAdminOrManager());
-      Product memory item = Product(_id, _n, _cat, _price, _avail);
-      items.push(item);
+      Product memory product = Product(productCount, _n, _cat, _price, _avail);
+      // Map the name of the product to the product
+      Products[product.name] = product;
+      // Map the id or the product to the product
+      ProductIds[productCount] = product;
       productCount++;
     }
 
-    function deleteProduct(uint256 _id) public {
+    function deleteProduct(string memory _productName) public {
       // Restricted to managers
       require(isAdminOrManager());
-      delete items[_id];
+      // Delete product from list of products
+      delete Products[_productName];
+      // Delete product from list of Idx
+      delete ProductIds[productCount];
       productCount--;
     }
 
-    function lookupInventoryForProduct(uint256 _id) public view returns (
-      uint256 id,
+    function lookupInventoryForProduct(string memory _productName) public view returns (
+      uint256 idx,
       string memory name,
       string memory category,
       uint256 price,
       uint256 avail
     ){
-      Product storage item = items[_id];
-      return (item.id, item.name, item.category, item.price, item.avail);
+      Product storage item = Products[_productName];
+      return (item.idx, item.name, item.category, item.price, item.avail);
     }
 
     //Updates a stock item in the stock struc
-    function updateInventoryForProduct(uint256 _id, string memory _n, string memory _cat, uint256 _p, uint256 _avail) public returns (
-      uint256 id,
+    function updateInventoryForProduct(string memory _productName, string memory _cat, uint256 _p, uint256 _avail) public returns (
       string memory name,
       string memory category,
       uint256 price,
@@ -61,22 +69,20 @@ contract ProductInventory is WhitelistManagers {
     ){
       // Restricted to managers
       require(isAdminOrManager());
-      items[_id].id = _id;
-      items[_id].name = _n;
-      items[_id].category = _cat;
-      items[_id].price = _p;
-      items[_id].avail = _avail;
-      Product storage i = items[_id];
-      return (i.id, i.name, i.category, i.price, i.avail);
+      Product storage product = Products[_productName];
+      product.category = _cat;
+      product.price = _p;
+      product.avail = _avail;
+      return (product.name, product.category, product.price, product.avail);
     }
 
-    function productIdExists(uint256 _id)  public view returns(bool) {
-      require(items[_id].id == _id, "Product ID does not exist");
+    function productIdExists(string memory _n)  public view returns(bool) {
+      require(Products[_n].idx >= 0, "Product ID does not exist");
       return true;
     }
 
-    function quantityReasonable(uint256 _id, uint256 _quantity) public view returns(bool) {
-      require(items[_id].avail >= _quantity, "You've ordered more than is in stock");
+    function quantityReasonable(string memory _n, uint256 _quantity) public view returns(bool) {
+      require(Products[_n].avail >= _quantity, "You've ordered more than is in stock");
       return true;
     }
 }

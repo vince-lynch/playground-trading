@@ -3,7 +3,7 @@ import "./../inventory/product-inventory.sol";
 
 contract CustomerOrder is ProductInventory {
   struct Order {
-    uint256 productId;
+    string productName;
     address customerAddress;
     bool filled;
     string shippingAddress;
@@ -15,14 +15,14 @@ contract CustomerOrder is ProductInventory {
   uint private orderCount = 0;
 
   function newOrder(
-    uint256 _productId,
+    string memory _productName,
     string memory _shippingAddress,
     string memory _desiredDeliveryDate,
     uint256 _quantity
   ) public {
-    require(productIdExists(_productId));
-    require(quantityReasonable(_productId, _quantity));
-    Order memory order = Order(_productId, msg.sender, false, _shippingAddress, _desiredDeliveryDate, 'Date Not Allocated', _quantity);
+    require(productIdExists(_productName));
+    require(quantityReasonable(_productName, _quantity));
+    Order memory order = Order(_productName, msg.sender, false, _shippingAddress, _desiredDeliveryDate, 'Date Not Allocated', _quantity);
     orders.push(order);
     orderCount++;
   }
