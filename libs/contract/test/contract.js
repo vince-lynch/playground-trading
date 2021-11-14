@@ -1,5 +1,6 @@
 var utils = require("ethers").utils;
-const { solidity } = require("ethereum-waffle");
+const { waffle } = require("hardhat");
+const { solidity } = waffle;
 const chai = require("chai");
 chai.use(solidity);
 const { expect } = chai;
@@ -108,7 +109,7 @@ describe("Token contract", function () {
       await warehouseManager.acceptOrder(id.toNumber());
     } catch (err) {
       expect(err.message).to.equal(
-        "VM Exception while processing transaction: revert Customers balance isnt large enough cant approve order"
+        "VM Exception while processing transaction: reverted with reason string 'Customers balance isnt large enough cant approve order'"
       );
     }
 
@@ -157,7 +158,7 @@ describe("Token contract", function () {
       );
     } catch (err) {
       expect(err.message).to.equal(
-        "VM Exception while processing transaction: revert You've ordered more than is in stock"
+        "VM Exception while processing transaction: reverted with reason string 'You've ordered more than is in stock'"
       );
     }
   });

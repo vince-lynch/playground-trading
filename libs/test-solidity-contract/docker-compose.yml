@@ -9,3 +9,10 @@ services:
         NPM_TOKEN: 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
     ports:
       - 8545:8545
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        npm run test
+
+
