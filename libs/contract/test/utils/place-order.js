@@ -1,5 +1,6 @@
 var utils = require("ethers").utils;
-const { solidity } = require("ethereum-waffle");
+const { waffle } = require("hardhat");
+const { solidity } = waffle;
 const chai = require("chai");
 chai.use(solidity);
 const { expect } = chai;
