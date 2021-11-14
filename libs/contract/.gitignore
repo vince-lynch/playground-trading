@@ -1,5 +1,6 @@
 node_modules
 secrets.json
+.npmrc
 
 #Hardhat files
 cache

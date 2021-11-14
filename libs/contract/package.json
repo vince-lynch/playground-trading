@@ -1,5 +1,6 @@
 {
-  "name": "contract",
+  "name": "@vince-lynch/playground-trading",
+  "version": "0.1.3",
   "scripts": {
     "blockchain": "npx hardhat node",
     "compile": "npx hardhat compile",
@@ -11,7 +12,6 @@
     "@nomiclabs/hardhat-ethers": "^2.0.2",
     "@nomiclabs/hardhat-waffle": "^2.0.1",
     "@nomiclabs/hardhat-web3": "^2.0.0",
-    "@openzeppelin/contracts-upgradeable": "^4.2.0",
     "@remix-project/remixd": "^0.5.2",
     "chai": "^4.3.4",
     "ethereum-waffle": "^3.4.0",
@@ -29,14 +29,21 @@
     "@chainlink/abi": "^0.1.4",
     "@chainlink/contracts": "^0.2.1",
     "@openzeppelin/contracts": "^4.3.3",
-    "@openzeppelin/hardhat-upgrades": "^1.9.0",
     "@openzeppelin/test-helpers": "^0.5.15",
     "@uniswap/v2-core": "^1.0.1",
     "@uniswap/v2-periphery": "^1.1.0-beta.0",
     "bn.js": "^5.2.0",
     "chai-as-promised": "^7.1.1",
-    "hardhat": "^2.0.2",
+    "hardhat": "^2.6.8",
     "prettier-config-solidity": "^1.4.2",
     "solc": "^0.8.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "repository": {
+    "type": "git",
+    "name": "@vince-lynch/playground-trading",
+    "url": "git+https://github.com/vince-lynch/playground-trading.git"
   }
 }
