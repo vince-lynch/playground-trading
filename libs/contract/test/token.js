@@ -1,5 +1,9 @@
 var utils = require('ethers').utils;
-const { expect } = require("chai");
+const chai = require("chai");
+const { solidity } = require("ethereum-waffle");
+chai.use(solidity);
+
+const { expect } = chai;
 
 describe("Token contract", function () {
 
@@ -65,5 +69,27 @@ describe("Token contract", function () {
     expect(utils.formatEther(price)).to.equal(utils.formatEther(markPrice));
     expect(utils.formatEther(available)).to.equal(utils.formatEther(quantity));
   });
+
+   /**
+   * Feature: Customer can NOT alter stock in the inventory
+   *
+   * Given that the user is a customer
+   * When the user changes the amount of stock in the factory
+   * Then the amount of stock in the factory is NOT updated
+   */
+     it("Feature: Customer can NOT alter stock in the inventory", async function () {
+
+      const customerWallet = addr2;
+
+      const isManager = await contract.isManager(customerWallet.address);
+
+      expect(isManager).to.equal(false);
+
+      const customer = contract.connect(customerWallet);
+
+      await expect(
+        customer.newProduct("large plywood", "factory1", 1, 50)
+      ).to.be.revertedWith("Not a manager or admin.");
+    });
 
 });
