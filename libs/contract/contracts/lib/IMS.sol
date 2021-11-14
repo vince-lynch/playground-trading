@@ -5,7 +5,8 @@ import "./openzeppelin/OZepDeps.sol";
 import "./access/managers.sol";
 import "./inventory/product-inventory.sol";
 import "./customer/order.sol";
+import "./finance/bank.sol";
 
-contract IMS is OZepDeps, WhitelistManagers, ProductInventory, CustomerOrder {
+abstract contract IMS is OZepDeps, WhitelistManagers, ProductInventory, CustomerOrder, Bank {
 
 }
