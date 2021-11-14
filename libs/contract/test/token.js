@@ -5,7 +5,8 @@ chai.use(solidity);
 const { expect } = chai;
 
 const createStock = require("./utils/create-stock.js");
-
+const placeOrder = require("./utils/place-order.js")
+const orderIsFilled = require("./utils/is-order-filled.js")
 
 
 describe("Token contract", function () {
@@ -86,25 +87,14 @@ describe("Token contract", function () {
      * Then the order is accepted
     */
      it("Feature: Customer can place an order", async function () {
+      const customerWallet = addr2;
+
       const product = 'large plywood';
       const [idx, productName, factory, price, available] = await createStock(addr1, contract);
       expect(productName).to.equal(product);
 
-      const customerWallet = addr2;
-      const customer = await contract.connect(customerWallet);
-
       const order1LessThanTotalSupply = available -1
-
-      /**
-       * Place order
-       */
-      await customer.newOrder(product, '150 canary wharf shipping corp, canada place, london', '24/02/2022', order1LessThanTotalSupply)
-
-      const [ id, oProductName, address, filled, s, d, a, quantity, amountOwed ] = await customer.getOrderById(idx.toNumber());
-      expect(oProductName).to.equal(product);
-      expect(address).to.equal(customerWallet.address);
-      expect(filled).to.equal(false);
-      expect(amountOwed.toNumber()).to.equal(order1LessThanTotalSupply)
+      const { id, amountOwed } = await placeOrder(customerWallet, contract, product, order1LessThanTotalSupply);
 
       const warehouseManager = await contract.connect(addr1);
 
@@ -132,9 +122,29 @@ describe("Token contract", function () {
       /**
        * Order is accepted
        */
-      const [ _a, _b, _c, isFilled ] = await customer.getOrderById(idx.toNumber());
-      expect(isFilled).to.equal(true);
+       orderIsFilled(addr2, contract, id.toNumber())
+    });
 
+    /**
+     * Feature: Customer can NOT place an order
+     *
+     * Given that the user is a customer
+     * Given that the warehouse does NOT have enough stock
+     * Then the order is rejected
+     **/
+     it("Feature: Customer can place an order", async function () {
+      const customerWallet = addr2;
+
+      const product = 'large plywood';
+      const [idx, productName, factory, price, available] = await createStock(addr1, contract);
+      expect(productName).to.equal(product);
+
+      const order1MoreThanTotalSupply = available + 1
+      try {
+        await placeOrder(customerWallet, contract, product, order1MoreThanTotalSupply);
+      } catch (err) {
+        expect(err.message).to.equal("VM Exception while processing transaction: revert You've ordered more than is in stock")
+      }
     });
 
 });
