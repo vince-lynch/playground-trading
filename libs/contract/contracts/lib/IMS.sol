@@ -6,7 +6,8 @@ import "./access/managers.sol";
 import "./inventory/product-inventory.sol";
 import "./customer/order.sol";
 import "./finance/bank.sol";
+import "./warehouse-managers/warehouse-orders.sol";
 
-abstract contract IMS is OZepDeps, WhitelistManagers, ProductInventory, CustomerOrder, Bank {
+abstract contract IMS is OZepDeps, WhitelistManagers, ProductInventory, CustomerOrder, Bank, WarehouseOrders {
 
 }
