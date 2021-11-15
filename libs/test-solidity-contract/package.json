@@ -2,8 +2,7 @@
   "name": "test-solidity-contract",
   "scripts": {
     "build": "docker-compose build",
-    "start": "docker-compose up",
-    "test": "npm run --prefix=./node_modules/@vince-lynch/playground-trading test"
+    "start": "docker-compose up"
   },
   "dependencies": {
     "@vince-lynch/playground-trading": "^0.1.3"

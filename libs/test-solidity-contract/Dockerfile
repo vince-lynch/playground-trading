@@ -8,13 +8,17 @@ ENV NODE_PATH=/usr/local/lib/node_modules
 RUN rm -rf /usr/local/lib/node_modules/.staging/*
 
 WORKDIR /usr/src/app
+
+# Had issues installing ethereum waffle so installing globally
+# might be resolved now, try re-adding it back to the package.json
+#
 RUN npm install -g ethereum-waffle@^3.4.0
 
 COPY package.json package.json
 RUN printf '\n\
   always-auth=true\n\
   @vince-lynch:registry=https://npm.pkg.github.com\n\
-  //npm.pkg.github.com/:_authToken=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\n\
+  //npm.pkg.github.com/:_authToken=${NPM_TOKEN}\n\
   '\
   > .npmrc
 
