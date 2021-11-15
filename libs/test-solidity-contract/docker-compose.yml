@@ -14,5 +14,3 @@ services:
       - -c
       - |
         npm run test
-
-
