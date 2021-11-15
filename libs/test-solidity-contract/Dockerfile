@@ -14,7 +14,7 @@ COPY package.json package.json
 RUN printf '\n\
   always-auth=true\n\
   @vince-lynch:registry=https://npm.pkg.github.com\n\
-  //npm.pkg.github.com/:_authToken=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\n\
+  //npm.pkg.github.com/:_authToken=${NPM_TOKEN}\n\
   '\
   > .npmrc
 
