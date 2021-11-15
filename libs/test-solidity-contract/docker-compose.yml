@@ -6,7 +6,7 @@ services:
     build:
       context: .
       args:
-        NPM_TOKEN: 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
+        NPM_TOKEN:
     ports:
       - 8545:8545
     entrypoint:
